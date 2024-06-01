@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            margin: 15px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%; /* Keep the width of the table 100% */
+            box-shadow: 0 1px 1px dimgray(0,0,0,0.1);
+            margin-bottom: 5px;
+            background-color: #fff;
+            max-height: 200px; /* Set max height for the table */
+            overflow-y: auto; /* Add vertical scroll if needed */
+            font-weight: bold;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 1px;
+            text-align: center; /* Align text in the middle */
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e9ecef;
+        }
+        .green {
+            background-color: #00ac28 !important; /* Intense Green */
+            color: #fff;
+        }
+        .amber {
+            background-color: #f0b400 !important; /* Intense Amber */
+            color: #fff;
+        }
+        .red {
+            background-color: #dd1226 !important; /* Intense Red */
+            color: #fff;
+        }
+        .editable-remarks {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            resize: none;
+            font-size: 14px; /* Standard font size */
+        }
+        .editable-remarks:focus {
+            outline: none;
+            background-color: #f8f9fa;
+        }
+        .remarks-col {
+            font-size: 14px; /* Standard font size for remarks column */
+        }
+        .mmx-header {
+            background-color: #007bff; /* Professional Blue */
+            font-size: 15px;
+            font-weight: bold;
+            color: #fff;
+            padding: 13px;
+        }
+        select {
+            width: 180px; /* Increase the width of the select dropdown */
+            padding: 5px;
+            font-size: 14px;
+        }
+        .classic-header 
+        {
+            background-color: #007bff; /* Professional Blue */
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            padding: 10px;
+        }
+        .checkpoints {
+            text-align: left; /* Align checkpoints list to the left */
+            padding-left: 40px; /* Add some left padding for better alignment */
+        }
+    </style>
+<script>
+        function updateTime() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            var timeString = hours + ':' + minutes + ':' + seconds;
+            
+            var year = now.getFullYear();
+            var month = (now.getMonth() + 1).toString().padStart(2, '0');
+            var day = now.getDate().toString().padStart(2, '0');
+            var dateString = year + '-' + month + '-' + day;
+    
+            document.querySelectorAll('.time-cell').forEach(function (cell) {
+                cell.innerHTML = timeString;
+            });
+            
+            document.querySelectorAll('.date-cell').forEach(function (cell) {
+                cell.innerHTML = dateString;
+            });
+        }    
+        function changeRAG(select) {
+            let row = select.parentNode.parentNode;
+            row.cells[5].className = select.value.toLowerCase().replace(/ /g, '-');
+        }
+    
+        window.onload = function() {
+            updateTime();
+            setInterval(updateTime, 1000); // Update every second
+    
+            document.querySelectorAll('select').forEach(function (selectElement) {
+                selectElement.addEventListener('change', function() {
+                    changeRAG(selectElement);
+                });
+                // Initialize row color based on the default selected value
+                changeRAG(selectElement);
+            });
+        }
+    </script>            
+</head>
+<body>
+<table>
+    <thead>
+        <tr>
+            <th colspan="6" class="mmx-header">DAILY HEALTH CHECK</th>
+        </tr>
+        <tr>
+                <th class="classic-header">S.No</th>
+                <th class="classic-header">Check points</th>
+                <th class="classic-header">Current Status</th>
+                <th class="classic-header">Checked At</th>
+                <th class="classic-header">Date</th>
+                <th class="classic-header"class="remarks-col">Remarks</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td class="checkpoints">CORE VS S3 FILES</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">AVAILABLE</option>
+                    <option value="amber">MISSING WIP</option>
+                    <option value="red">NOT AVAILABLE</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td class="checkpoints">MMX PORTAL ACCESSIBILITY</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">AVAILABLE</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">NOT AVAILABLE</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td class="checkpoints">DELIVERY STATS (LAST 2 HOURS)</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">AVAILABLE</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">NOT AVAILABLE</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td class="checkpoints">EDR/CDR (<l class="date-cell"></l>) AVAILABILITY</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">AVAILABLE</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">NOT AVAILABLE</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td class="checkpoints">SFTP SERVERS</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">ACCESSIBLE</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">NOT ACCESSIBLE</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td class="checkpoints">EDR PUSH DAEMON JOB</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">RUNNING</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">NOT RUNNING</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td class="checkpoints">VM SERVERS</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">ACCESSIBLE</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">NOT ACCESSIBLE</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td class="checkpoints">NIFI PROCESS</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">RUNNING</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">NOT RUNNING</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td class="checkpoints">LCR JOB</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">RUNNING</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">NOT RUNNING</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td class="checkpoints">DIRECT PROV JOBS</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">RUNNING</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">NOT RUNNING</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td class="checkpoints">FAILURES IF ANY</td>
+            <td>
+                <select onchange="changeRAG(this)">
+                    <option value="green">NO ISSUES</option>
+                    <option value="amber">WORK IN PROGRESS</option>
+                    <option value="red">ISSUE OBSERVED</option>
+                </select>
+            </td>
+            <td class="time-cell"></td>
+            <td class="date-cell"></td>
+            <td class="green" style="vertical-align: middle;"><textarea class="editable-remarks" style="text-align: center;">NILL</textarea></td>
+        </tr>
+    </tbody>
+</table>
+</br></br>
+<div style='float:center'> 
+    <a id="emailLink" href="#" onclick="generateEmail()"class="mmx-header">Draft Email</a> &nbsp;
+</div>
+</br></br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=2.0">
+<title>Login to MMX ITP</title>
+</head>
+<body>
+
+<form id="urlForm" action="https://mobility.smshub.tatacommunications.com/" method="get" target="_blank">
+    <button type="submit" class="classic-header">Login to MMX ITP</button>
+</form>
+<br>
+<th>
+<form id="urlForm" action="https://nocpam.vsnl.co.in/" method="get" target="_blank">
+    <button type="submit" class="classic-header">Login to NOC PAM (Make sure you are connected to India VPN's) </button>
+</form>
+<br>
+<br>
+</th>
+<title>Aws Quick Sight Dashboards</title>
+</head>
+<body>
+<form id="urlForm" action="https://aws-india-tatacommunications.awsapps.com/start/#/" method="get" target="_blank">
+    <button type="submit" class="classic-header">Login to Quick Sight Dashboards</button>
+</form>
+<br>
+<br>
+<th>
+    <span class="classic-header">SFTP SERVERS LIST(Check if all servers are ACCESSIBLE and report any abnormalities found):</span>
+    <ul>
+        <li><a>10.128.140.172-Mumbai</a></li>
+        <li><a>100.176.201.37-Hyderabad</a></li>
+        <li><a>100.76.211.37-Oregon</a></li>
+    </ul>
+</th>
+<th>
+    <span class="classic-header">EDR PUSH DAEMON JOB (Check whether job is running or not):</span>
+    <ul>
+        <li><a>LOGIN TO MUM SFTP AND RUN THE BELOW COMMAND</a></li>
+        <li><a></a>ps -ef | grep edr_push_main.sh</li>
+    </ul>
+</th>
+
+<th>
+    <span class="classic-header">Direct Prov Log path for MTT,TTT,MUM,HYD(check if any error and report):</span>
+    <ul>
+        <li><a>tail -200f /home/hdpadm/DP_Release_3.35.0/logs/directprov.log</a></li>
+    </ul>
+</th>
+
+<th>
+    <span class="classic-header">LCR Log to be verified in both server and Db :</span>
+    <ul>
+        <li><a>In MUM SFTP SERVER : tail -200f /app/web/mmxJob/logs/lcr_itac.log</a></li>
+        <li><a>In AWS DB : SELECT * FROM LCR3_INFO ORDER BY BATCH_ID DESC (Check if the status is 1 and if not report an issue)</a></li>
+        <li><a>In AWS DB :  SELECT * FROM DP_BATCH_INSTANCE WHERE STATUS='PROCESSING' ORDER BY BATCH_ID DESC (If any batch id is in processing check the time since when it is and if it >2 hours from sys_time then report)</a></li>
+
+    </ul>
+</th>
+<th>
+    <span class="classic-header">ANY FAILURE ALERTS:</span>
+    <ul>
+        <li><a>Check if Cloudera hadoop Support DL had received any Mail alerts and report if any </a></li>
+    </ul>
+</th>
+<th>
+    <span class="classic-header">NIFI GBS LOADER LOG(10.171.96.70)(MremoteNG):</span>
+    <ul>
+        <li><a>tail -f 200f /root/mmx_gbs_loader_push/logs/mmx_gbs_loader_push.log</a></li>
+        <li><a>Also check the last email we recieved with subject : </a></li>
+    </ul>
+</th>
+</body>
+</html>
+
+<script>
+    function generateEmail() {
+    var currentDate = new Date();
+    var dateString = currentDate.toLocaleDateString();
+    var timeString = currentDate.toLocaleTimeString();
+    var subject = "MMX Health Monitoring Report as of " + dateString + " " + timeString;
+    var body = "Hi Team,\n\nPlease find below snapshot for stats of MMX.\n\nRegards,\nCloudera ops Team.";
+
+    var email = "venkatasaikishore.surada@contractor.tatacommunications.com";
+    var mailtoString = "mailto:" + email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+
+    window.open(mailtoString);
+}
+
+</script>
+</body>
+</html>
